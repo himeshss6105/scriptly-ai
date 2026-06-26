@@ -424,6 +424,59 @@ input[type="range"]::-webkit-slider-thumb{
   .rail.right{ border-bottom:none; border-top:1px solid var(--glass-border); }
 }
 
+/* ===================== Phone breakpoint ===================== */
+@media (max-width: 560px){
+  .shell{ padding:0 18px; }
+  .nav{ padding:14px 18px; }
+
+  /* Nav: hide the link list, keep brand + a single primary action */
+  .nav-links{ gap:10px; }
+  .nav-links a:not(.btn){ display:none; }
+  .nav-links .btn{ padding:9px 14px !important; font-size:0.85rem; }
+  .brand{ font-size:1.1rem; }
+
+  .hero{ padding:48px 0 36px; }
+  h1.headline{ font-size:clamp(1.9rem, 8vw, 2.4rem); }
+  .lede{ font-size:1rem; }
+  .hero-actions{ flex-wrap:wrap; gap:10px; }
+  .hero-actions .btn{ width:100%; text-align:center; }
+  .core-stage{ height:200px; margin-top:8px; }
+  .core{ width:150px; height:150px; }
+  .core-ring{ inset:-16px; }
+  .core-ring.r2{ inset:-32px; }
+
+  .section{ padding:48px 0; }
+  .section-head{ margin-bottom:28px; }
+  .card{ padding:22px; }
+
+  .footer{ flex-direction:column; gap:8px; text-align:center; padding:24px 0; }
+
+  /* Auth pages */
+  .auth-card{ padding:30px 22px; max-width:100%; }
+
+  /* ---- Dashboard: reorder so the writing canvas comes first ---- */
+  .app-shell{ display:flex; flex-direction:column; }
+  .main-canvas{ order:1; padding:18px 16px; }
+  .rail{ order:2; padding:18px 16px; }
+  .rail.right{ order:3; }
+
+  .canvas-toolbar{ gap:8px; overflow-x:auto; flex-wrap:nowrap; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+  .canvas-toolbar::-webkit-scrollbar{ display:none; }
+  .chip{ flex:0 0 auto; white-space:nowrap; }
+
+  .trend-panel{ padding:16px 18px; }
+  .trend-input-row{ flex-direction:column; }
+  .trend-input-row .btn{ width:100%; }
+
+  .prompt-panel{ padding:16px; }
+  .prompt-footrow{ flex-direction:column; align-items:stretch; gap:10px; }
+  .prompt-footrow > div{ justify-content:space-between; }
+
+  .output-panel{ padding:18px; min-height:200px; }
+
+  .history-item{ font-size:0.88rem; }
+}
+
 @media (prefers-reduced-motion: reduce){
   .core, .core-ring.r2, .bg-field::before, .bg-field::after, .eyebrow .dot{ animation:none !important; }
 }
