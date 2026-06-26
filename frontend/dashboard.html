@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Console — Scriptly.AI</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="indicator-strip"></div>
+    <nav class="nav">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>Scriptly.AI</a>
+      <div class="nav-links">
+        <span class="meta" id="user-greeting" style="font-family:var(--font-mono); color:var(--text-mist);"></span>
+        <a href="#" class="btn btn-ghost" id="logout-btn" style="padding:9px 18px;">Log out</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="app-shell">
+    <!-- LEFT RAIL: history -->
+    <aside class="rail">
+      <button class="new-btn" id="new-draft-btn">+ New draft</button>
+      <div class="rail-title">Recent Drafts</div>
+      <div id="history-list">
+        <p class="history-empty">Your generations will appear here.</p>
+      </div>
+    </aside>
+
+    <!-- CENTER: the writing canvas -->
+    <main class="main-canvas">
+
+      <!-- TREND PANEL (Stage 1 & 2 from the vision) -->
+      <div class="glass trend-panel" id="trend-panel">
+        <div class="trend-panel-head">
+          <div class="eyebrow"><span class="dot"></span> Trend Intelligence</div>
+          <p class="trend-sub">What is the world talking about right now? Enter a topic or paste a trending URL to anchor your content.</p>
+        </div>
+        <div class="trend-input-row">
+          <input type="text" id="trend-input" placeholder="e.g. &quot;AI video generation&quot; or paste a Reddit/YouTube URL…">
+          <button class="btn btn-ghost" id="analyze-trend-btn">Analyse trend</button>
+        </div>
+        <div id="trend-result" class="trend-result hidden">
+          <div class="trend-badge" id="trend-label"></div>
+          <p class="trend-insight" id="trend-insight"></p>
+          <button class="btn btn-ghost btn-sm" id="use-trend-btn">Use this as my brief →</button>
+        </div>
+      </div>
+
+      <!-- CONTENT TYPE CHIPS (Stage 3 from the vision) -->
+      <div class="canvas-toolbar" id="type-chips">
+        <div class="chip active" data-type="script">YouTube Script</div>
+        <div class="chip" data-type="caption">Instagram Caption</div>
+        <div class="chip" data-type="blog">Blog Post</div>
+        <div class="chip" data-type="thread">Tweet Thread</div>
+        <div class="chip" data-type="email">Email / Newsletter</div>
+        <div class="chip" data-type="ad">Ad Copy</div>
+        <div class="chip" data-type="outline">Video Outline</div>
+      </div>
+
+      <div class="glass prompt-panel">
+        <textarea id="prompt-input" placeholder="Describe what you need — or use the Trend Intelligence panel above to auto-fill.&#10;&#10;e.g. &quot;Explain the rise of AI video tools for my tech-savvy YouTube audience, hook in the first 10 seconds.&quot;"></textarea>
+        <div class="prompt-footrow">
+          <span class="char-count" id="char-count">0 characters</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span class="meta" style="color:var(--text-mist);font-size:12px;">⌘↵ to generate</span>
+            <button class="btn btn-primary" id="generate-btn">Generate ↗</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass output-panel" id="output-panel">
+        <div class="output-empty" id="output-empty">
+          <div class="core"></div>
+          <p>The Core is idle. Describe a brief above and press Generate.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT RAIL: controls -->
+    <aside class="rail right">
+      <div class="rail-title">Platform & Voice</div>
+
+      <div class="slider-group">
+        <div class="slabel"><span>Tone</span><span id="tone-val">Balanced</span></div>
+        <input type="range" id="tone-slider" min="0" max="4" value="2" step="1">
+        <div class="slider-labels"><span>Clinical</span><span>Playful</span></div>
+      </div>
+
+      <div class="slider-group">
+        <div class="slabel"><span>Length</span><span id="length-val">Medium</span></div>
+        <input type="range" id="length-slider" min="0" max="2" value="1" step="1">
+        <div class="slider-labels"><span>Short</span><span>Long</span></div>
+      </div>
+
+      <div class="rail-title" style="margin-top:20px;">Options</div>
+      <div class="toggle-row">
+        <span>Keep my voice</span>
+        <label class="switch">
+          <input type="checkbox" id="voice-toggle" checked>
+          <span class="slider-track"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span>Add emoji</span>
+        <label class="switch">
+          <input type="checkbox" id="emoji-toggle">
+          <span class="slider-track"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span>Hook opener</span>
+        <label class="switch">
+          <input type="checkbox" id="hook-toggle" checked>
+          <span class="slider-track"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span>CTA at end</span>
+        <label class="switch">
+          <input type="checkbox" id="cta-toggle">
+          <span class="slider-track"></span>
+        </label>
+      </div>
+
+      <div class="rail-title" style="margin-top:20px;">Target Platform</div>
+      <select id="platform-select" class="platform-select">
+        <option value="">Auto-detect from type</option>
+        <option value="YouTube">YouTube</option>
+        <option value="Instagram">Instagram</option>
+        <option value="X / Twitter">X / Twitter</option>
+        <option value="LinkedIn">LinkedIn</option>
+        <option value="TikTok">TikTok</option>
+        <option value="Newsletter">Newsletter</option>
+      </select>
+    </aside>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

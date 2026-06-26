@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create your console — Scriptly.AI</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+
+  <div class="auth-wrap">
+    <form class="glass auth-card" id="signup-form">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>Scriptly.AI</a>
+      <p class="auth-sub">Set up your console in under a minute.</p>
+
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="At least 8 characters" minlength="8" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" id="signup-btn">Create console</button>
+      <div class="form-msg" id="signup-msg"></div>
+
+      <p class="auth-foot">Already have one? <a href="login.html">Log in</a></p>
+    </form>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
