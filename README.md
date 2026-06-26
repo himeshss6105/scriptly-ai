@@ -1,4 +1,6 @@
 # Scriptly.AI — Trend-to-Content Intelligence Platform
+**Live:** [https://scriptly-ai.onrender.com](https://scriptly-ai.onrender.com)
+*(Hosted on Render's free tier — the first load after a period of inactivity can take 30–50s to spin up.)*
 
 Scriptly.AI bridges the gap between **what is trending** and **what should be created**. It detects emerging topics, analyses audience interest, and generates platform-specific content in minutes.
 
