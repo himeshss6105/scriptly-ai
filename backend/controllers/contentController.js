@@ -17,7 +17,7 @@ async function generate(req, res) {
       // Database hiccup — still return the generation so the user isn't blocked.
     }
 
-    res.json({ output, id: saved ? saved._id : undefined });
+    res.json({ output, id: saved ? saved._id : undefined, quota: req.quota });
   } catch (err) {
     res.status(502).json({
       message: 'The Core could not reach the AI model. Check the server\'s GEMINI_API_KEY.',

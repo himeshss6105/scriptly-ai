@@ -223,6 +223,20 @@ async function loadHistory() {
   }
 }
 
+// ---------- Quota indicator ----------
+const quotaIndicator = document.getElementById('quota-indicator');
+
+function updateQuotaIndicator(quota) {
+  if (!quota) return;
+  quotaIndicator.textContent = `${quota.remaining} of ${quota.limit} left today`;
+  quotaIndicator.style.color = quota.remaining <= 1 ? 'var(--danger)' : 'var(--text-mist)';
+  const genBtn = document.getElementById('generate-btn');
+  if (quota.remaining <= 0) {
+    genBtn.disabled = true;
+    genBtn.title = 'Daily quota reached — resets at midnight UTC';
+  }
+}
+
 // ---------- Generate ----------
 async function generate() {
   const prompt = promptInput.value.trim();
@@ -251,9 +265,13 @@ async function generate() {
       }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.message || 'The Core could not generate that.');
+    if (!res.ok) {
+      if (res.status === 429 && data.quota) updateQuotaIndicator(data.quota);
+      throw new Error(data.message || 'The Core could not generate that.');
+    }
 
     showOutput(data.output);
+    updateQuotaIndicator(data.quota);
     const entry = { id: data.id || String(Date.now()), prompt, output: data.output, type: activeType };
     history.unshift(entry);
     activeHistoryId = entry.id;

@@ -65,7 +65,10 @@
       <div class="glass prompt-panel">
         <textarea id="prompt-input" placeholder="Describe what you need — or use the Trend Intelligence panel above to auto-fill.&#10;&#10;e.g. &quot;Explain the rise of AI video tools for my tech-savvy YouTube audience, hook in the first 10 seconds.&quot;"></textarea>
         <div class="prompt-footrow">
-          <span class="char-count" id="char-count">0 characters</span>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <span class="char-count" id="char-count">0 characters</span>
+            <span class="meta" id="quota-indicator" style="color:var(--text-mist);font-size:12px;"></span>
+          </div>
           <div style="display:flex;gap:8px;align-items:center;">
             <span class="meta" style="color:var(--text-mist);font-size:12px;">⌘↵ to generate</span>
             <button class="btn btn-primary" id="generate-btn">Generate ↗</button>
