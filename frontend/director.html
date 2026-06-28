@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Director's Assist — Scriptly.AI</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/director.css">
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="indicator-strip"></div>
+    <nav class="nav">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>Scriptly.AI</a>
+      <div class="nav-links">
+        <a href="dashboard.html">← Console</a>
+        <span class="meta" id="user-greeting" style="font-family:var(--font-body); color:var(--text-mist);"></span>
+        <a href="#" class="btn btn-ghost" id="logout-btn" style="padding:9px 18px;">Log out</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="director-shell shell">
+
+    <div class="director-intro">
+      <div class="eyebrow"><span class="dot"></span> Director's Assist</div>
+      <h1 class="director-title">Describe your scene.<br><span class="accent">Get a ready screenplay.</span></h1>
+      <p class="lede" style="margin:0;">Press record and talk it through the way you'd brief actors on set — rambling is fine. Stop when you're done, and Scriptly formats it into a proper scene.</p>
+    </div>
+
+    <div class="glass director-stage">
+
+      <!-- RECORDING CONTROLS -->
+      <div class="record-zone">
+        <button class="record-btn" id="record-btn" aria-label="Start recording">
+          <span class="record-dot"></span>
+        </button>
+        <p class="record-status" id="record-status">Tap to start recording your scene</p>
+        <p class="record-timer hidden" id="record-timer">00:00</p>
+      </div>
+
+      <!-- LIVE TRANSCRIPT (read-only while recording, editable after) -->
+      <div class="transcript-zone">
+        <div class="rail-title" style="margin:0 0 8px;">Transcript</div>
+        <textarea id="transcript-box" placeholder="Your spoken scene will appear here as you talk. You can also just type it directly if you'd rather not use your mic." rows="6"></textarea>
+        <div class="transcript-footrow">
+          <span class="char-count" id="transcript-count">0 characters</span>
+          <button class="btn btn-primary" id="generate-scene-btn">Generate scene ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTPUT: the formatted screenplay -->
+    <div class="glass screenplay-panel" id="screenplay-panel">
+      <div class="screenplay-empty" id="screenplay-empty">
+        <div class="core"></div>
+        <p>Your formatted scene will appear here.</p>
+      </div>
+    </div>
+
+    <!-- DIRECTOR TOOLS: one-click rewrites, shown once a scene exists -->
+    <div class="director-tools hidden" id="director-tools">
+      <div class="rail-title" style="margin:0 0 10px;">Director Tools</div>
+      <div class="tool-chips">
+        <button class="chip" data-note="Make the tone darker and more dramatic">Make it darker</button>
+        <button class="chip" data-note="Increase the suspense and tension in this scene">Add suspense</button>
+        <button class="chip" data-note="Increase the emotional weight of this scene">Increase emotion</button>
+        <button class="chip" data-note="Add a touch of humor to this scene without changing the core events">Add humor</button>
+        <button class="chip" data-note="Shorten the dialogue, make it punchier and more economical">Shorten dialogue</button>
+        <button class="chip" data-note="Extend this scene with a bit more development before the ending">Extend scene</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/director.js"></script>
+</body>
+</html>

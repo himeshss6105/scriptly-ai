@@ -73,4 +73,57 @@ If the topic is a URL, extract the subject matter from it.`,
   return JSON.parse(raw);
 }
 
-module.exports = { generateContent, analyseTrend };
+// ===================================================================
+// Director's Assist — turns a rambling, spoken scene description into
+// a properly formatted screenplay scene.
+// ===================================================================
+
+const SCREENPLAY_FORMAT_RULES = `You are a professional script supervisor. A film director has just verbally
+described a scene out loud, the way they'd brief actors on set — informally,
+possibly repeating themselves, restarting sentences, or thinking out loud.
+Your job is to turn that spoken description into a properly formatted
+screenplay scene, inferring structure the director didn't explicitly state.
+
+Follow real screenplay formatting conventions exactly:
+- SLUGLINE: "INT." or "EXT." + LOCATION (all caps) + " – " + "DAY" or "NIGHT" (or DAWN/DUSK if implied). Infer interior/exterior and time of day from context; default to INT. and DAY if truly ambiguous.
+- Action lines: present tense, third person, concise. Describe only what is seen or heard.
+- Character names: ALL CAPS, centered above their dialogue, on their own line.
+- Dialogue: directly below the character name, normal case.
+- Parentheticals: short tone/delivery notes in (parentheses), placed on their own line directly under the character name when needed — use sparingly, only when the director's tone implies it (e.g. trembling, whispering, angry).
+- Infer character names from context if the director refers to "the hero", "his friend", etc. — give them sensible names if none are stated, or use the role description in caps (e.g. THE HERO) if a name truly cannot be inferred.
+- Do not invent major plot events the director didn't describe or imply — format and lightly fill in only what's needed for the scene to read as complete (e.g. a beat of silence, a glance) where the spoken description clearly leaves room for it.
+- Return ONLY the formatted screenplay scene. No preamble, no notes, no explanation, no markdown code fences.`;
+
+async function generateScreenplay({ transcript, rewriteNote, previousScript }) {
+  const ai = getClient();
+  if (!ai) throw new Error('GEMINI_API_KEY is not configured on the server.');
+
+  let contents;
+  if (rewriteNote && previousScript) {
+    // One-click rewrite: revise an already-generated scene, don't reformat from scratch.
+    contents = `${SCREENPLAY_FORMAT_RULES}
+
+Here is a screenplay scene that was already generated:
+
+---
+${previousScript}
+---
+
+Revise it with this direction: "${rewriteNote}". Keep the same characters, setting, and overall events unless the direction explicitly asks to change them. Keep the same screenplay formatting rules.`;
+  } else {
+    contents = `${SCREENPLAY_FORMAT_RULES}
+
+Here is the director's spoken scene description (raw transcript, may be informal or repetitive):
+
+"""
+${transcript}
+"""
+
+Produce the formatted screenplay scene now.`;
+  }
+
+  const response = await ai.models.generateContent({ model: MODEL, contents });
+  return response.text;
+}
+
+module.exports = { generateContent, analyseTrend, generateScreenplay };

@@ -8,13 +8,14 @@ const toneLabels   = ['Clinical', 'Formal', 'Balanced', 'Friendly', 'Playful'];
 const lengthLabels = ['Short', 'Medium', 'Long'];
 
 const TYPE_LABELS = {
-  script:  'YouTube Script',
-  caption: 'Instagram Caption',
-  blog:    'Blog Post',
-  thread:  'Tweet Thread',
-  email:   'Email / Newsletter',
-  ad:      'Ad Copy',
-  outline: 'Video Outline',
+  script:     'YouTube Script',
+  caption:    'Instagram Caption',
+  blog:       'Blog Post',
+  thread:     'Tweet Thread',
+  email:      'Email / Newsletter',
+  ad:         'Ad Copy',
+  outline:    'Video Outline',
+  screenplay: "Director's Scene",
 };
 
 let activeType = 'script';
