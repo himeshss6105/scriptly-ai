@@ -1,4 +1,6 @@
 # Scriptly.AI — Trend-to-Content Intelligence Platform
+**Live:** [https://scriptly-ai.onrender.com](https://scriptly-ai.onrender.com)
+*(Hosted on Render's free tier — the first load after a period of inactivity can take 30–50s to spin up.)*
 
 **Live:** [https://scriptly-ai.onrender.com](https://scriptly-ai.onrender.com)
 *(Hosted on Render's free tier — the first load after a period of inactivity can take 30–50s to spin up.)*
