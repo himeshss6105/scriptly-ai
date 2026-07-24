@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log in — Scriptly.AI</title>
 <link rel="stylesheet" href="css/style.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div class="bg-field"></div>
@@ -21,12 +22,18 @@
       </div>
       <div class="field">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="••••••••" required>
+        <div class="input-icon-wrap">
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+          <button type="button" class="password-toggle" data-target="password" aria-label="Show password"></button>
+        </div>
         <div class="field-error" id="password-error">Enter your password.</div>
       </div>
 
       <button type="submit" class="btn btn-primary btn-block" id="login-btn">Log in</button>
       <div class="form-msg" id="login-msg"></div>
+
+      <div class="auth-divider">or</div>
+      <div class="google-signin-wrap" id="google-signin-btn"></div>
 
       <p class="auth-foot">No console yet? <a href="signup.html">Create one</a></p>
     </form>

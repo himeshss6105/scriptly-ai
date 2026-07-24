@@ -4,7 +4,8 @@ const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    passwordHash: { type: String, required: true },
+    passwordHash: { type: String, required: false }, // not set for Google-only accounts
+    googleId: { type: String, default: null, index: true, sparse: true, unique: true },
 
     // Fair-usage quota against Scriptly's shared Gemini key.
     // Resets automatically the first time a user makes a request on a new UTC day —

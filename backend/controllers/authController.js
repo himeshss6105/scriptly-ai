@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 function signToken(userId) {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
@@ -48,6 +51,9 @@ async function login(req, res) {
     if (!user) {
       return res.status(401).json({ message: 'No account found with that email.' });
     }
+    if (!user.passwordHash) {
+      return res.status(401).json({ message: 'This account uses Google Sign-In. Continue with Google instead.' });
+    }
 
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) {
@@ -61,4 +67,41 @@ async function login(req, res) {
   }
 }
 
-module.exports = { signup, login };
+async function googleLogin(req, res) {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) {
+      return res.status(400).json({ message: 'Missing Google credential.' });
+    }
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const email = (payload.email || '').toLowerCase();
+    const googleId = payload.sub;
+    const name = payload.name || email.split('@')[0];
+
+    if (!email) {
+      return res.status(400).json({ message: 'Google account has no email to sign in with.' });
+    }
+
+    let user = await User.findOne({ $or: [{ googleId }, { email }] });
+
+    if (!user) {
+      user = await User.create({ name, email, googleId });
+    } else if (!user.googleId) {
+      // Existing email/password account signing in with Google for the first time — link it.
+      user.googleId = googleId;
+      await user.save();
+    }
+
+    const token = signToken(user._id);
+    res.json({ token, user: publicUser(user) });
+  } catch (err) {
+    res.status(401).json({ message: 'Could not verify Google sign-in.', detail: err.message });
+  }
+}
+
+module.exports = { signup, login, googleLogin };
