@@ -11,29 +11,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root{
-  /* ---- Color tokens — warm dark neutrals, not cool void ---- */
-  --void:        #1A1714;   /* warm near-black background */
-  --ink:         #221E19;   /* panel base, pre-glass */
-  --ink-raised:  #2A251F;   /* raised surface */
-  --glass-fill:  rgba(255,247,237,0.045);
-  --glass-fill-strong: rgba(255,247,237,0.085);
-  --glass-border: rgba(255,247,237,0.10);
-  --glass-border-bright: rgba(255,247,237,0.22);
+  /* ---- Color tokens — black + violet, not warm neutrals ---- */
+  --void:        #07060A;   /* true near-black background */
+  --ink:         #110E17;   /* panel base, pre-glass */
+  --ink-raised:  #171220;   /* raised surface */
+  --glass-fill:  rgba(167,139,250,0.045);
+  --glass-fill-strong: rgba(167,139,250,0.085);
+  --glass-border: rgba(167,139,250,0.10);
+  --glass-border-bright: rgba(167,139,250,0.22);
 
-  --terracotta:  #E08A5B;   /* primary warm accent */
-  --terracotta-soft: #F0AA80;
-  --cream:       #E8DFC9;   /* secondary highlight, soft gold-cream */
-  --amber:       #E08A5B;   /* kept as alias so existing rules using --amber still read warm */
-  --amber-dim:   #8a5b3c;
+  --terracotta:  #7B5CFF;   /* primary violet accent */
+  --terracotta-soft: #A78BFA;
+  --cream:       #C9B8FF;   /* secondary highlight, soft violet-lilac */
+  --amber:       #7B5CFF;   /* kept as alias so existing rules using --amber still read violet */
+  --amber-dim:   #4B3A99;
 
-  --text-pale:   #F5F1E8;
-  --text-mist:   #B8AC98;
-  --text-faint:  #756B5C;
+  --text-pale:   #F5F3F7;
+  --text-mist:   #B8B3C2;
+  --text-faint:  #6E6A78;
 
   --danger:      #E58B7A;
   --success:     #9DC9A0;
 
-  /* kept for any legacy reference — now mapped warm instead of cool */
+  /* kept for any legacy reference — now mapped violet instead of warm */
   --cyan:        var(--terracotta);
   --violet:      var(--cream);
 
