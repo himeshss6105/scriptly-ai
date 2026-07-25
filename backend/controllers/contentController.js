@@ -1,5 +1,5 @@
 const Content = require('../models/Content');
-const { generateContent, analyseTrend, generateScreenplay } = require('../services/geminiService');
+const { generateContent, analyseTrend, generateScreenplay, generateAdCampaign } = require('../services/geminiService');
 
 async function generate(req, res) {
   try {
@@ -63,7 +63,39 @@ async function analyseRoute(req, res) {
   }
 }
 
-module.exports = { generate, history, analyseRoute, screenplay };
+module.exports = { generate, history, analyseRoute, screenplay, adCampaign };
+
+async function adCampaign(req, res) {
+  try {
+    const { productName, audience, platform, offer, tone, variations } = req.body;
+    if (!productName || !productName.trim()) {
+      return res.status(400).json({ message: 'Tell me what product or service the ad is for.' });
+    }
+
+    const results = await generateAdCampaign({ productName, audience, platform, offer, tone, variations });
+
+    let saved = null;
+    try {
+      saved = await Content.create({
+        user: req.userId,
+        prompt: `[Ad Creator] ${productName}`,
+        output: JSON.stringify(results),
+        type: 'ad-campaign',
+        tone: tone || 'Balanced',
+        platform: platform || '',
+      });
+    } catch {
+      // Database hiccup — still return the generation so the user isn't blocked.
+    }
+
+    res.json({ variations: results, id: saved ? saved._id : undefined, quota: req.quota });
+  } catch (err) {
+    res.status(502).json({
+      message: 'The Core could not generate that campaign. Check the server\'s GEMINI_API_KEY.',
+      detail: err.message,
+    });
+  }
+}
 
 async function screenplay(req, res) {
   try {

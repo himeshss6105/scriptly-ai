@@ -7,6 +7,7 @@ const API_BASE = window.location.origin + '/api';
 // Google OAuth Client ID (not secret — safe to expose in frontend code).
 // Replace this with your real Client ID from Google Cloud Console.
 const GOOGLE_CLIENT_ID = '759741683640-h957na3ohhdm2nr65n7187iodldav21j.apps.googleusercontent.com';
+
 /** Read the stored auth token, if any. */
 function getToken() {
   return localStorage.getItem('scriptly_token');

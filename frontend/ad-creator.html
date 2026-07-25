@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Creator — Scriptly.AI</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/ad-creator.css">
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="indicator-strip"></div>
+    <nav class="nav">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>Scriptly.AI</a>
+      <div class="nav-links">
+        <a href="dashboard.html">← Console</a>
+        <span class="meta" id="user-greeting" style="font-family:var(--font-body); color:var(--text-mist);"></span>
+        <a href="#" class="btn btn-ghost" id="logout-btn" style="padding:9px 18px;">Log out</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="ad-shell shell">
+
+    <div class="ad-intro">
+      <div class="eyebrow"><span class="dot"></span> Ad Creator</div>
+      <h1 class="ad-title">Describe the product.<br><span class="accent">Get a ready campaign.</span></h1>
+      <p class="lede" style="margin:0;">Fill in the basics and Scriptly generates several genuinely different ad angles at once — pick the one that fits, or use them as a starting split-test set.</p>
+    </div>
+
+    <form class="glass ad-form-panel" id="ad-form">
+      <div class="ad-form-grid">
+        <div class="field span-2">
+          <label for="ad-product">Product or service</label>
+          <input type="text" id="ad-product" placeholder="e.g. a subscription meal-kit for busy parents" required>
+        </div>
+
+        <div class="field">
+          <label for="ad-audience">Target audience</label>
+          <input type="text" id="ad-audience" placeholder="e.g. working parents, 28-45">
+        </div>
+
+        <div class="field">
+          <label for="ad-platform">Platform</label>
+          <select id="ad-platform">
+            <option value="General">General</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Google">Google Search</option>
+            <option value="YouTube">YouTube</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="TikTok">TikTok</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="ad-offer">Offer / CTA to highlight</label>
+          <input type="text" id="ad-offer" placeholder="e.g. 20% off your first box">
+        </div>
+
+        <div class="field">
+          <label for="ad-tone">Tone</label>
+          <select id="ad-tone">
+            <option>Clinical</option>
+            <option>Formal</option>
+            <option selected>Balanced</option>
+            <option>Friendly</option>
+            <option>Playful</option>
+          </select>
+        </div>
+
+        <div class="field span-2">
+          <label for="ad-variations">Number of variations</label>
+          <select id="ad-variations">
+            <option value="2">2 variations</option>
+            <option value="3" selected>3 variations</option>
+            <option value="4">4 variations</option>
+            <option value="5">5 variations</option>
+            <option value="6">6 variations</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="ad-form-foot">
+        <div class="form-msg" id="ad-msg" style="margin:0;"></div>
+        <button type="submit" class="btn btn-primary" id="ad-generate-btn">Generate campaign ↗</button>
+      </div>
+    </form>
+
+    <div id="ad-results">
+      <div class="ad-results-empty" id="ad-results-empty">
+        <div class="core"></div>
+        <p>Your ad variations will appear here.</p>
+      </div>
+      <div class="ad-results-grid hidden" id="ad-results-grid"></div>
+    </div>
+
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/ad-creator.js"></script>
+</body>
+</html>

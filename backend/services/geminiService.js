@@ -51,6 +51,54 @@ async function generateContent({ prompt, type, tone, length, keepVoice, addEmoji
   return response.text;
 }
 
+// ===================================================================
+// Ad Creator — a dedicated multi-variation ad generator, distinct from
+// the generic 'ad' content-type chip. Takes structured campaign inputs
+// (product, audience, platform, offer) and returns several ready-to-use
+// variations as structured data, not one block of prose.
+// ===================================================================
+
+const AD_PLATFORM_NOTES = {
+  Instagram: 'Written for an Instagram feed/reel caption — casual, visual-first, hashtag-friendly.',
+  Facebook:  'Written for a Facebook feed ad — slightly longer, benefit-led, friendly tone.',
+  Google:    'Written for a Google Search ad — headline under 30 characters, description under 90 characters, no fluff.',
+  YouTube:   'Written for a YouTube pre-roll/in-stream ad script — spoken, hook in the first 5 seconds.',
+  LinkedIn:  'Written for a LinkedIn feed ad — professional, credibility-led, no gimmicks.',
+  TikTok:    'Written for a TikTok ad — punchy, trend-aware, native/casual voice, strong opening line.',
+  General:   'Written to work across most ad platforms — clear, punchy, and adaptable.',
+};
+
+async function generateAdCampaign({ productName, audience, platform, offer, tone, variations }) {
+  const ai = getClient();
+  if (!ai) throw new Error('GEMINI_API_KEY is not configured on the server.');
+
+  const count = Math.min(Math.max(parseInt(variations, 10) || 3, 1), 6);
+  const platformNote = AD_PLATFORM_NOTES[platform] || AD_PLATFORM_NOTES.General;
+
+  const prompt = `You are an ad copywriter generating a small campaign of ad variations.
+
+Product/service: "${productName}"
+Target audience: "${audience || 'a general audience'}"
+Offer or call to action to highlight: "${offer || 'no specific offer — focus on the core benefit'}"
+Tone: ${tone || 'Balanced'}
+Platform: ${platform || 'General'}. ${platformNote}
+
+Generate exactly ${count} distinct ad variations. Each should take a genuinely different angle (e.g. pain-point led, benefit led, social proof, urgency, curiosity) — do not just reword the same idea.
+
+Respond ONLY with a valid JSON object (no markdown, no preamble, no code fences) in this exact shape:
+{
+  "variations": [
+    { "angle": "short 2-4 word label for this angle", "headline": "short punchy headline", "body": "1-3 sentence ad body", "cta": "short call-to-action phrase" }
+  ]
+}`;
+
+  const response = await ai.models.generateContent({ model: MODEL, contents: prompt });
+  const raw = response.text.trim().replace(/```json|```/g, '').trim();
+  const parsed = JSON.parse(raw);
+  if (!Array.isArray(parsed.variations)) throw new Error('Unexpected response shape from the model.');
+  return parsed.variations;
+}
+
 async function analyseTrend(topic) {
   const ai = getClient();
   if (!ai) throw new Error('GEMINI_API_KEY is not configured on the server.');
@@ -126,4 +174,4 @@ Produce the formatted screenplay scene now.`;
   return response.text;
 }
 
-module.exports = { generateContent, analyseTrend, generateScreenplay };
+module.exports = { generateContent, analyseTrend, generateScreenplay, generateAdCampaign };
