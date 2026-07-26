@@ -4,17 +4,17 @@
 
 requireAuth();
 
-const toneLabels   = ['Clinical', 'Formal', 'Balanced', 'Friendly', 'Playful'];
+const toneLabels = ['Clinical', 'Formal', 'Balanced', 'Friendly', 'Playful'];
 const lengthLabels = ['Short', 'Medium', 'Long'];
 
 const TYPE_LABELS = {
-  script:     'YouTube Script',
-  caption:    'Instagram Caption',
-  blog:       'Blog Post',
-  thread:     'Tweet Thread',
-  email:      'Email / Newsletter',
-  ad:         'Ad Copy',
-  outline:    'Video Outline',
+  script: 'YouTube Script',
+  caption: 'Instagram Caption',
+  blog: 'Blog Post',
+  thread: 'Tweet Thread',
+  email: 'Email / Newsletter',
+  ad: 'Ad Copy',
+  outline: 'Video Outline',
   screenplay: "Director's Scene",
 };
 
@@ -34,20 +34,20 @@ chipRow.addEventListener('click', (e) => {
 
 // ---------- Sliders ----------
 const toneSlider = document.getElementById('tone-slider');
-const toneVal    = document.getElementById('tone-val');
+const toneVal = document.getElementById('tone-val');
 toneSlider.addEventListener('input', () => {
   toneVal.textContent = toneLabels[toneSlider.value];
 });
 
 const lengthSlider = document.getElementById('length-slider');
-const lengthVal    = document.getElementById('length-val');
+const lengthVal = document.getElementById('length-val');
 lengthSlider.addEventListener('input', () => {
   lengthVal.textContent = lengthLabels[lengthSlider.value];
 });
 
 // ---------- Character count ----------
 const promptInput = document.getElementById('prompt-input');
-const charCount   = document.getElementById('char-count');
+const charCount = document.getElementById('char-count');
 promptInput.addEventListener('input', () => {
   charCount.textContent = `${promptInput.value.length} characters`;
 });
@@ -65,12 +65,12 @@ document.getElementById('new-draft-btn').addEventListener('click', () => {
 });
 
 // ---------- Trend Intelligence ----------
-const trendInput     = document.getElementById('trend-input');
-const trendResult    = document.getElementById('trend-result');
-const trendLabel     = document.getElementById('trend-label');
-const trendInsight   = document.getElementById('trend-insight');
+const trendInput = document.getElementById('trend-input');
+const trendResult = document.getElementById('trend-result');
+const trendLabel = document.getElementById('trend-label');
+const trendInsight = document.getElementById('trend-insight');
 const analyzeTrendBtn = document.getElementById('analyze-trend-btn');
-const useTrendBtn    = document.getElementById('use-trend-btn');
+const useTrendBtn = document.getElementById('use-trend-btn');
 
 analyzeTrendBtn.addEventListener('click', analyseTrend);
 trendInput.addEventListener('keydown', (e) => {
@@ -97,11 +97,11 @@ async function analyseTrend() {
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || 'Trend analysis failed.');
 
-    trendLabel.textContent   = data.label   || topic;
+    trendLabel.textContent = data.label || topic;
     trendInsight.textContent = data.insight || 'No insights available.';
     trendResult.classList.remove('hidden');
   } catch (err) {
-    trendLabel.textContent   = topic;
+    trendLabel.textContent = topic;
     trendInsight.textContent = err.message;
     trendResult.classList.remove('hidden');
   } finally {
@@ -111,7 +111,7 @@ async function analyseTrend() {
 }
 
 useTrendBtn.addEventListener('click', () => {
-  const topic   = trendInput.value.trim();
+  const topic = trendInput.value.trim();
   const insight = trendInsight.textContent;
   const typeName = TYPE_LABELS[activeType] || activeType;
   promptInput.value = `Trending topic: "${topic}"\n\nKey insight: ${insight}\n\nCreate a ${typeName} about this trend that captures audience interest.`;
@@ -212,7 +212,7 @@ historyList.addEventListener('click', (e) => {
 
 async function loadHistory() {
   try {
-    const res = await fetch(API_BASE + '/content/history', {
+    const res = await fetch(API_BASE + '/content/history?section=console', {
       headers: { Authorization: 'Bearer ' + getToken() },
     });
     if (!res.ok) return;
@@ -255,14 +255,14 @@ async function generate() {
       },
       body: JSON.stringify({
         prompt,
-        type:       activeType,
-        tone:       toneLabels[toneSlider.value],
-        length:     lengthLabels[lengthSlider.value],
-        keepVoice:  document.getElementById('voice-toggle').checked,
-        addEmoji:   document.getElementById('emoji-toggle').checked,
+        type: activeType,
+        tone: toneLabels[toneSlider.value],
+        length: lengthLabels[lengthSlider.value],
+        keepVoice: document.getElementById('voice-toggle').checked,
+        addEmoji: document.getElementById('emoji-toggle').checked,
         hookOpener: document.getElementById('hook-toggle').checked,
-        addCTA:     document.getElementById('cta-toggle').checked,
-        platform:   document.getElementById('platform-select').value,
+        addCTA: document.getElementById('cta-toggle').checked,
+        platform: document.getElementById('platform-select').value,
       }),
     });
     const data = await res.json().catch(() => ({}));

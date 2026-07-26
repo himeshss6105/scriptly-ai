@@ -4,14 +4,14 @@
 
 requireAuth();
 
-const recordBtn      = document.getElementById('record-btn');
-const recordStatus    = document.getElementById('record-status');
-const recordTimer     = document.getElementById('record-timer');
-const transcriptBox   = document.getElementById('transcript-box');
+const recordBtn = document.getElementById('record-btn');
+const recordStatus = document.getElementById('record-status');
+const recordTimer = document.getElementById('record-timer');
+const transcriptBox = document.getElementById('transcript-box');
 const transcriptCount = document.getElementById('transcript-count');
-const generateBtn     = document.getElementById('generate-scene-btn');
+const generateBtn = document.getElementById('generate-scene-btn');
 const screenplayPanel = document.getElementById('screenplay-panel');
-const directorTools   = document.getElementById('director-tools');
+const directorTools = document.getElementById('director-tools');
 
 let recognition = null;
 let isRecording = false;
@@ -197,6 +197,10 @@ generateBtn.addEventListener('click', async () => {
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || 'The Core could not format that scene.');
     renderScreenplay(data.output);
+    if (data.id) {
+      sceneHistory.unshift({ id: data.id, prompt: transcript, output: data.output });
+      renderHistoryList();
+    }
   } catch (err) {
     showScreenplayError(err.message);
   } finally {
@@ -222,6 +226,10 @@ document.querySelectorAll('.tool-chips .chip').forEach((btn) => {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || 'The Core could not apply that rewrite.');
       renderScreenplay(data.output);
+      if (data.id) {
+        sceneHistory.unshift({ id: data.id, prompt: note, output: data.output });
+        renderHistoryList();
+      }
     } catch (err) {
       showScreenplayError(err.message);
     } finally {
@@ -229,3 +237,43 @@ document.querySelectorAll('.tool-chips .chip').forEach((btn) => {
     }
   });
 });
+// ---------- History rail (Director's View only) ----------
+const historyList = document.getElementById('history-list');
+let sceneHistory = [];
+
+function renderHistoryList() {
+  if (!sceneHistory.length) {
+    historyList.innerHTML = '<p class="history-empty">Your generated scenes will appear here.</p>';
+    return;
+  }
+  historyList.innerHTML = sceneHistory.map(item => `
+    <div class="history-item" data-id="${item.id}">
+      <span class="history-type">${escapeHtml((item.prompt || 'Scene').slice(0, 60))}</span>
+    </div>
+  `).join('');
+}
+
+historyList.addEventListener('click', (e) => {
+  const node = e.target.closest('.history-item');
+  if (!node) return;
+  const item = sceneHistory.find(h => h.id === node.dataset.id);
+  if (!item) return;
+  transcriptBox.value = item.prompt || '';
+  updateCharCount();
+  renderScreenplay(item.output);
+});
+
+async function loadSceneHistory() {
+  try {
+    const res = await fetch(API_BASE + '/content/history?section=director', {
+      headers: { Authorization: 'Bearer ' + getToken() },
+    });
+    const data = await res.json().catch(() => ({}));
+    sceneHistory = data.items || [];
+    renderHistoryList();
+  } catch {
+    // History stays empty locally if backend isn't reachable.
+  }
+}
+
+loadSceneHistory();

@@ -28,17 +28,29 @@ async function generate(req, res) {
 
 async function history(req, res) {
   try {
-    const items = await Content.find({ user: req.userId })
+    const { section } = req.query;
+
+    let filter = { user: req.userId };
+    if (section === 'director') {
+      filter.type = 'screenplay';
+    } else if (section === 'adcreator') {
+      filter.type = 'ad-campaign';
+    } else if (section === 'console') {
+      filter.type = { $nin: ['screenplay', 'ad-campaign'] };
+    }
+    // if no section is passed, falls back to old behavior (everything)
+
+    const items = await Content.find(filter)
       .sort({ createdAt: -1 })
       .limit(50)
       .lean();
 
     res.json({
       items: items.map((i) => ({
-        id:     i._id,
+        id: i._id,
         prompt: i.prompt,
         output: i.output,
-        type:   i.type,
+        type: i.type,
       })),
     });
   } catch (err) {
