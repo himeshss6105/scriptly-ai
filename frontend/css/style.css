@@ -26,7 +26,7 @@
   --terracotta: #7B5CFF;
   /* primary violet accent */
   --terracotta-soft: #A78BFA;
-  --cream: #C9B8FF;
+  --cream: #bdaeee;
   /* secondary highlight, soft violet-lilac */
   --amber: #7B5CFF;
   /* kept as alias so existing rules using --amber still read violet */
@@ -37,7 +37,7 @@
   --text-faint: #6E6A78;
 
   --danger: #E58B7A;
-  --success: #9DC9A0;
+  --success: #9fd7a3;
 
   /* kept for any legacy reference — now mapped violet instead of warm */
   --cyan: var(--terracotta);
